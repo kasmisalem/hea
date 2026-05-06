@@ -461,6 +461,220 @@
   @media (max-width: 400px) {
     .letters-grid { grid-template-columns: 1fr; }
   }
+  /* ─── SPECIAL CARD BADGE ─── */
+  .special-badge {
+    position: absolute; top: 12px; right: 14px;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: var(--rose-light); text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .special-card { position: relative; }
+
+  /* ─── PHOTO MODAL ─── */
+  #photo-modal {
+    position: fixed; inset: 0; z-index: 500;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  #photo-modal.open { opacity: 1; pointer-events: all; }
+
+  .photo-letter-wrapper {
+    position: relative; z-index: 1;
+    max-width: 540px; width: 100%;
+    background: linear-gradient(170deg, #1a0c10, #0f0608);
+    border: 1px solid rgba(196,64,78,0.2);
+    box-shadow: 0 60px 120px rgba(0,0,0,0.8), 0 0 60px rgba(196,64,78,0.06);
+    overflow-y: auto; max-height: 90vh;
+    transform: scale(0.88) translateY(30px);
+    transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  #photo-modal.open .photo-letter-wrapper { transform: scale(1) translateY(0); }
+
+  .photo-letter-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(196,64,78,0.1);
+  }
+  .photo-letter-tag {
+    font-size: 10px; letter-spacing: 0.28em;
+    color: var(--rose-light); text-transform: uppercase;
+  }
+
+  /* Photo Frame */
+  .photo-frame-section { padding: 28px 28px 0; }
+  .photo-frame {
+    position: relative;
+    border: 2px solid rgba(196,64,78,0.25);
+    padding: 6px;
+    background: rgba(0,0,0,0.3);
+  }
+  .photo-inner { overflow: hidden; line-height: 0; }
+  .photo-art {
+    width: 100%; height: 260px;
+    position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #0f1a2e 0%, #1a2540 40%, #2a1520 100%);
+  }
+  .photo-sky {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      #0a0f1e 0%, #12203a 25%, #2d1a35 50%, #4a1525 65%, #7a2535 75%, #c24050 85%, #e8806a 92%, #f4b080 100%);
+  }
+  .photo-sun {
+    position: absolute; bottom: 38%; left: 50%; transform: translateX(-50%);
+    width: 55px; height: 55px;
+    background: radial-gradient(circle, #fff5c0 0%, #f9c76a 40%, #e88040 70%, transparent 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(248,180,80,0.4), 0 0 80px 40px rgba(240,140,60,0.15);
+    animation: sunPulse 4s ease-in-out infinite;
+  }
+  @keyframes sunPulse {
+    0%,100% { box-shadow: 0 0 40px 20px rgba(248,180,80,0.4), 0 0 80px 40px rgba(240,140,60,0.15); }
+    50% { box-shadow: 0 0 60px 30px rgba(248,180,80,0.55), 0 0 100px 60px rgba(240,140,60,0.2); }
+  }
+  .photo-glow-ring {
+    position: absolute; bottom: 36%; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, transparent 30%, rgba(240,160,80,0.08) 60%, transparent 75%);
+    border: 1px solid rgba(240,160,80,0.12);
+  }
+  .photo-horizon {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 42%;
+    background: linear-gradient(180deg, transparent 0%, #1a0d08 40%, #120a06 100%);
+  }
+  .photo-reflection {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 38%;
+    background: linear-gradient(180deg,
+      rgba(232,128,106,0.1) 0%, rgba(196,64,78,0.06) 40%, transparent 100%);
+    backdrop-filter: blur(2px);
+  }
+  .photo-petals {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-around; padding-top: 10px;
+  }
+  .fp {
+    font-size: 18px; opacity: 0;
+    animation: petalDrift 6s ease-in-out infinite;
+  }
+  .fp:nth-child(1) { animation-delay: 0s; }
+  .fp:nth-child(2) { animation-delay: 1.2s; }
+  .fp:nth-child(3) { animation-delay: 2.4s; }
+  .fp:nth-child(4) { animation-delay: 0.6s; }
+  .fp:nth-child(5) { animation-delay: 1.8s; }
+  @keyframes petalDrift {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    15% { opacity: 0.7; }
+    80% { opacity: 0.4; }
+    100% { transform: translateY(220px) rotate(180deg); opacity: 0; }
+  }
+  .photo-caption-overlay {
+    position: absolute; bottom: 15px; left: 0; right: 0;
+    text-align: center;
+  }
+  .photo-caption-overlay p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 16px;
+    color: rgba(245,210,200,0.85);
+    letter-spacing: 0.05em;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+  }
+  /* Frame corners */
+  .photo-corner {
+    position: absolute; width: 18px; height: 18px;
+  }
+  .photo-corner.tl { top: -1px; left: -1px; border-top: 2px solid var(--rose); border-left: 2px solid var(--rose); }
+  .photo-corner.tr { top: -1px; right: -1px; border-top: 2px solid var(--rose); border-right: 2px solid var(--rose); }
+  .photo-corner.bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--rose); border-left: 2px solid var(--rose); }
+  .photo-corner.br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--rose); border-right: 2px solid var(--rose); }
+
+  /* Voice Player */
+  .voice-section { padding: 24px 28px 10px; }
+  .voice-player {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(196,64,78,0.07);
+    border: 1px solid rgba(196,64,78,0.15);
+    padding: 16px 18px;
+    border-radius: 2px;
+  }
+  .voice-avatar {
+    font-size: 28px; flex-shrink: 0;
+    filter: drop-shadow(0 0 8px rgba(196,64,78,0.5));
+  }
+  .voice-content { flex: 1; min-width: 0; }
+  .voice-label { font-size: 11px; letter-spacing: 0.12em; color: var(--rose-pale); margin-bottom: 8px; }
+  .voice-waveform {
+    display: flex; align-items: center; gap: 3px; height: 28px;
+    margin-bottom: 6px;
+  }
+  .vw-bar {
+    width: 3px; border-radius: 2px; background: var(--rose);
+    opacity: 0.35;
+    height: 6px; transition: height 0.2s;
+  }
+  .voice-waveform.playing .vw-bar {
+    opacity: 1;
+    animation: voiceWave 0.8s ease-in-out infinite;
+  }
+  .vw-bar:nth-child(2n)   { animation-delay: 0.1s; }
+  .vw-bar:nth-child(3n)   { animation-delay: 0.2s; }
+  .vw-bar:nth-child(4n)   { animation-delay: 0.3s; }
+  .vw-bar:nth-child(5n)   { animation-delay: 0.05s; }
+  @keyframes voiceWave {
+    0%,100% { height: 4px; }
+    50% { height: 22px; }
+  }
+  .voice-time { font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; }
+  .voice-play-btn {
+    width: 46px; height: 46px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--rose-deep), var(--rose));
+    border: none; border-radius: 50%;
+    color: white; font-size: 16px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(196,64,78,0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .voice-play-btn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(196,64,78,0.6); }
+
+  /* Transcript bubble */
+  .voice-transcript {
+    margin-top: 14px;
+    animation: riseIn 0.5s ease forwards;
+  }
+  .transcript-bubble {
+    background: rgba(196,64,78,0.06);
+    border-left: 2px solid var(--rose);
+    padding: 14px 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-style: italic;
+    color: #d4a0a8; line-height: 1.7;
+  }
+  .cursor-blink {
+    display: inline-block;
+    animation: blink 0.7s step-end infinite;
+    color: var(--rose);
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* Bottom note */
+  .photo-letter-note {
+    padding: 22px 28px 28px;
+    text-align: center;
+    border-top: 1px solid rgba(196,64,78,0.1);
+    margin-top: 10px;
+  }
+  .photo-letter-note-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; font-style: italic;
+    color: var(--text-dim); margin-bottom: 10px; line-height: 1.6;
+  }
+  .photo-letter-sig {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic;
+    color: var(--rose-light);
+  }
+
 </style>
 </head>
 <body>
@@ -537,8 +751,71 @@
       <p class="card-hint">A special one — always</p>
       <div class="card-seal">💌</div>
     </div>
+    <div class="letter-card special-card" onclick="openPhotoLetter()" style="grid-column: 1 / -1; background: linear-gradient(145deg, #1f0b12, #2e0f18); border-color: rgba(196,64,78,0.25);">
+      <span class="card-icon">📸</span>
+      <p class="card-feeling" style="font-size:24px;">A moment I captured,<br>just for you</p>
+      <p class="card-hint">A photo & a voice message — open carefully</p>
+      <div class="card-seal" style="background: linear-gradient(135deg,#6b1525,#c4404e); box-shadow: 0 4px 20px rgba(196,64,78,0.5);">🎙️</div>
+      <div class="special-badge">✦ Special ✦</div>
+    </div>
   </div>
 </main>
+
+<!-- ══ PHOTO LETTER MODAL ══ -->
+<div id="photo-modal">
+  <div class="modal-bg" onclick="closePhotoLetter()"></div>
+  <div class="photo-letter-wrapper">
+
+    <div class="photo-letter-header">
+      <span class="photo-letter-tag">✦ A moment for you ✦</span>
+      <button class="close-btn" onclick="closePhotoLetter()" style="position:relative;top:0;right:0;color:#c4a0a4;">✕</button>
+    </div>
+
+    <div class="photo-frame-section">
+      <div class="photo-frame">
+        <div class="photo-inner">
+          <div class="photo-art" style="padding:0;">
+           <img src="me4.jpg" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </div>
+        </div>
+        <div class="photo-corner tl"></div>
+        <div class="photo-corner tr"></div>
+        <div class="photo-corner bl"></div>
+        <div class="photo-corner br"></div>
+      </div>
+    </div>
+
+    <div class="voice-section">
+      <div class="voice-player" id="voice-player">
+        <div class="voice-avatar">🎙️</div>
+        <div class="voice-content">
+          <p class="voice-label">Voice Message — From Me to You</p>
+          <div class="voice-waveform" id="voice-waveform">
+            <div class="vw-bar"></div><div class="vw-bar"></div><div class="vw-bar"></div>
+            <div class="vw-bar"></div><div class="vw-bar"></div><div class="vw-bar"></div>
+            <div class="vw-bar"></div><div class="vw-bar"></div><div class="vw-bar"></div>
+            <div class="vw-bar"></div><div class="vw-bar"></div><div class="vw-bar"></div>
+            <div class="vw-bar"></div><div class="vw-bar"></div><div class="vw-bar"></div>
+            <div class="vw-bar"></div><div class="vw-bar"></div><div class="vw-bar"></div>
+          </div>
+          <p class="voice-time" id="voice-time">0:00</p>
+        </div>
+        <button class="voice-play-btn" id="voice-play-btn" onclick="toggleVoice()">▶</button>
+      </div>
+      <div class="voice-transcript" id="voice-transcript" style="display:none;">
+        <div class="transcript-bubble">
+          <span class="typed-text" id="typed-text"></span><span class="cursor-blink">|</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="photo-letter-note">
+      <p class="photo-letter-note-text">"Every photo holds a story. This one holds you — the warmest chapter of mine."</p>
+      <span class="photo-letter-sig">— With all my love 💗</span>
+    </div>
+
+  </div>
+</div>
 
 <!-- ══ LETTER MODAL ══ -->
 <div id="letter-modal">
@@ -570,7 +847,7 @@
     <div class="wb"></div><div class="wb"></div><div class="wb"></div>
   </div>
 </div>
-
+<audio id="real-voice" src="mylove.mp3"></audio>
 <script>
 /* ─── LETTER DATA ─── */
 const letters = {
@@ -749,8 +1026,139 @@ function toggleMusic() {
 
 /* ─── KEYBOARD CLOSE ─── */
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeLetter();
+  if (e.key === 'Escape') { closeLetter(); closePhotoLetter(); }
 });
+
+/* ─── PHOTO LETTER ─── */
+let voicePlaying = false;
+let voiceAudioCtx = null;
+let voiceTimeout = null;
+let voiceSeconds = 0;
+let voiceTimer = null;
+let typeTimeout = null;
+
+const voiceMessage = "My love... I wanted you to hear this from me directly. There are moments when I look at the sky and think of you — the way you laugh, the way you look when you don't know I'm watching. This photo reminds me of one of those moments. The sunset that evening felt like it was painted just for us. I miss you every single day. And I love you more than any words — written or spoken — could ever capture. Thank you for being you. Thank you for being mine.";
+
+function openPhotoLetter() {
+  const modal = document.getElementById('photo-modal');
+  modal.style.display = 'flex';
+  requestAnimationFrame(() => modal.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+  // reset voice
+  stopVoice();
+  document.getElementById('voice-time').textContent = '0:00';
+  document.getElementById('voice-waveform').classList.remove('playing');
+  document.getElementById('voice-play-btn').textContent = '▶';
+  document.getElementById('voice-transcript').style.display = 'none';
+  document.getElementById('typed-text').textContent = '';
+}
+
+function closePhotoLetter() {
+  const modal = document.getElementById('photo-modal');
+  modal.classList.remove('open');
+  setTimeout(() => { modal.style.display = 'none'; }, 500);
+  document.body.style.overflow = '';
+  stopVoice();
+}
+
+function toggleVoice() {
+  if (!voiceAudioCtx) voiceAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  voicePlaying = !voicePlaying;
+  const btn = document.getElementById('voice-play-btn');
+  const waveform = document.getElementById('voice-waveform');
+
+  if (voicePlaying) {
+    btn.textContent = '⏸';
+    waveform.classList.add('playing');
+    playVoiceTone();
+    startVoiceTimer();
+    startTyping();
+    document.getElementById('voice-transcript').style.display = 'block';
+  } else {
+    btn.textContent = '▶';
+    waveform.classList.remove('playing');
+    stopVoice();
+  }
+  document.getElementById('real-voice').play();
+}
+
+function stopVoice() {
+  voicePlaying = false;
+  clearTimeout(voiceTimeout);
+  clearInterval(voiceTimer);
+  clearTimeout(typeTimeout);
+  if (voiceAudioCtx) {
+    try { voiceAudioCtx.suspend(); } catch(e) {}
+  }
+}
+
+// Generate a soft flowing voice-like tone
+const voiceNotes = [
+  220, 246.94, 261.63, 293.66, 329.63, 261.63, 246.94, 220,
+  196, 220, 246.94, 261.63, 220, 196, 174.61, 196
+];
+let voiceNoteIdx = 0;
+
+function playVoiceTone() {
+  if (!voicePlaying) return;
+  if (voiceAudioCtx.state === 'suspended') voiceAudioCtx.resume();
+
+  const osc = voiceAudioCtx.createOscillator();
+  const gain = voiceAudioCtx.createGain();
+  const vibrato = voiceAudioCtx.createOscillator();
+  const vibratoGain = voiceAudioCtx.createGain();
+
+  vibrato.frequency.value = 5.5;
+  vibratoGain.gain.value = 3;
+  vibrato.connect(vibratoGain);
+  vibratoGain.connect(osc.frequency);
+
+  osc.connect(gain);
+  gain.connect(voiceAudioCtx.destination);
+  osc.type = 'sine';
+  osc.frequency.value = voiceNotes[voiceNoteIdx % voiceNotes.length];
+
+  const t = voiceAudioCtx.currentTime;
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(0.055, t + 0.2);
+  gain.gain.linearRampToValueAtTime(0.04, t + 0.8);
+  gain.gain.linearRampToValueAtTime(0, t + 1.5);
+
+  vibrato.start(t); vibrato.stop(t + 1.6);
+  osc.start(t); osc.stop(t + 1.6);
+  voiceNoteIdx++;
+
+  if (voicePlaying) voiceTimeout = setTimeout(playVoiceTone, 1100);
+}
+
+function startVoiceTimer() {
+  clearInterval(voiceTimer);
+  voiceSeconds = 0;
+  voiceTimer = setInterval(() => {
+    voiceSeconds++;
+    const m = Math.floor(voiceSeconds / 60);
+    const s = voiceSeconds % 60;
+    document.getElementById('voice-time').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    if (voiceSeconds >= 60) { clearInterval(voiceTimer); }
+  }, 1000);
+}
+
+// Typewriter effect for voice transcript
+function startTyping() {
+  const el = document.getElementById('typed-text');
+  el.textContent = '';
+  let i = 0;
+  function typeChar() {
+    if (!voicePlaying) return;
+    if (i < voiceMessage.length) {
+      el.textContent += voiceMessage[i];
+      i++;
+      const delay = voiceMessage[i-1] === '.' || voiceMessage[i-1] === ',' ? 200 : 38;
+      typeTimeout = setTimeout(typeChar, delay);
+    }
+  }
+  typeChar();
+}
 
 /* ─── INIT ─── */
 spawnParticles();
