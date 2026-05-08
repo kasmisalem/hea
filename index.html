@@ -675,12 +675,163 @@
     color: var(--rose-light);
   }
 
+  /* ─── PASSWORD SCREEN ─── */
+  #screen-password {
+    position: fixed; inset: 0; z-index: 300;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #200a10 0%, #0d0608 65%);
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+    padding: 20px;
+  }
+  #screen-password.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  .pw-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(196,64,78,0.1) 0%, transparent 65%);
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  .pw-box {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center;
+    width: 100%; max-width: 380px;
+  }
+
+  .pw-lock {
+    font-size: 52px; margin-bottom: 8px;
+    filter: drop-shadow(0 0 20px rgba(196,64,78,0.5));
+    animation: heartbeat 2.5s ease-in-out infinite;
+  }
+
+  .pw-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 6vw, 42px);
+    font-weight: 300; font-style: italic;
+    color: var(--rose-pale);
+    text-align: center; margin-bottom: 8px;
+    opacity: 0; animation: riseIn 1s ease 0.3s forwards;
+  }
+  .pw-sub {
+    font-size: 10px; letter-spacing: 0.28em;
+    color: var(--text-muted); text-transform: uppercase;
+    text-align: center; margin-bottom: 45px;
+    opacity: 0; animation: riseIn 1s ease 0.6s forwards;
+  }
+
+  .pw-input-wrap {
+    width: 100%; position: relative; margin-bottom: 16px;
+    opacity: 0; animation: riseIn 1s ease 0.9s forwards;
+  }
+  .pw-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(196,64,78,0.3);
+    color: var(--rose-pale);
+    padding: 16px 50px 16px 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-style: italic;
+    letter-spacing: 0.15em;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+    text-align: center;
+  }
+  .pw-input::placeholder { color: rgba(196,96,110,0.4); letter-spacing: 0.15em; }
+  .pw-input:focus {
+    border-color: rgba(196,64,78,0.7);
+    background: rgba(196,64,78,0.06);
+    box-shadow: 0 0 30px rgba(196,64,78,0.1);
+  }
+
+  .pw-toggle {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: var(--text-muted); font-size: 16px;
+    transition: color 0.3s; padding: 4px;
+  }
+  .pw-toggle:hover { color: var(--rose-pale); }
+
+  .pw-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--rose-deep), var(--rose));
+    border: none; color: white;
+    padding: 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px; font-weight: 300;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0; animation: riseIn 1s ease 1.1s forwards;
+    box-shadow: 0 4px 20px rgba(196,64,78,0.35);
+  }
+  .pw-btn:hover {
+    box-shadow: 0 6px 30px rgba(196,64,78,0.55);
+    letter-spacing: 0.42em;
+  }
+  .pw-btn:active { transform: scale(0.98); }
+
+  .pw-error {
+    margin-top: 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-style: italic;
+    color: var(--rose-light);
+    text-align: center; opacity: 0;
+    transition: opacity 0.4s ease;
+    min-height: 24px;
+  }
+  .pw-error.show { opacity: 1; }
+
+  .pw-hint {
+    margin-top: 30px;
+    font-size: 10px; letter-spacing: 0.2em;
+    color: rgba(122,78,84,0.5); text-transform: uppercase;
+    text-align: center;
+    opacity: 0; animation: riseIn 1s ease 1.4s forwards;
+  }
+
+  /* shake animation on wrong password */
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+  }
+  .shake { animation: shake 0.45s ease !important; }
+
 </style>
 </head>
 <body>
 
 <!-- Floating petals -->
 <div id="particles"></div>
+
+<!-- ══ SCREEN 0: PASSWORD ══ -->
+<section id="screen-password">
+  <div class="pw-glow"></div>
+  <div class="pw-box">
+    <span class="pw-lock">🔐</span>
+    <h1 class="pw-title">This is for you,<br>only you</h1>
+    <p class="pw-sub">Enter the secret to unlock</p>
+
+    <div class="pw-input-wrap">
+      <input
+        class="pw-input"
+        id="pw-input"
+        type="password"
+        placeholder="enter the secret word..."
+        onkeydown="if(event.key==='Enter') checkPassword()"
+        autocomplete="off"
+      />
+      <button class="pw-toggle" onclick="togglePwVisibility()" id="pw-eye">👁</button>
+    </div>
+
+    <button class="pw-btn" onclick="checkPassword()">Unlock &nbsp;✦&nbsp; Open</button>
+
+    <p class="pw-error" id="pw-error">That's not quite right, my love... try again 💔</p>
+    <p class="pw-hint">Only one person knows this secret</p>
+  </div>
+</section>
 
 <!-- ══ SCREEN 1: SURPRISE ══ -->
 <section id="screen-surprise">
@@ -774,8 +925,8 @@
     <div class="photo-frame-section">
       <div class="photo-frame">
         <div class="photo-inner">
-          <div class="photo-art" style="padding:0;">
-           <img src="me4.jpg" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          <div class="photo-art">
+            <img src="me4.jpg" style="width:100%;height:100%;object-fit:cover;" />
           </div>
         </div>
         <div class="photo-corner tl"></div>
@@ -1158,6 +1309,50 @@ function startTyping() {
     }
   }
   typeChar();
+}
+
+/* ─── PASSWORD ─── */
+const SECRET_PASSWORD = "26112024"; // ← غيّر كلمة السر هنا
+
+function checkPassword() {
+  const input = document.getElementById('pw-input');
+  const error = document.getElementById('pw-error');
+  const box   = document.querySelector('.pw-input-wrap');
+
+  if (input.value.trim().toLowerCase() === SECRET_PASSWORD.toLowerCase()) {
+    // Correct ✅
+    error.classList.remove('show');
+    const pwScreen = document.getElementById('screen-password');
+    pwScreen.style.opacity = '0';
+    pwScreen.style.transition = 'opacity 1.5s ease';
+    setTimeout(() => { pwScreen.style.display = 'none'; }, 1500);
+  } else {
+    // Wrong ❌
+    error.classList.add('show');
+    box.style.animation = 'none';
+    requestAnimationFrame(() => {
+      box.style.animation = '';
+      box.classList.remove('shake');
+      requestAnimationFrame(() => box.classList.add('shake'));
+    });
+    input.value = '';
+    input.focus();
+    setTimeout(() => {
+      box.classList.remove('shake');
+    }, 500);
+  }
+}
+
+function togglePwVisibility() {
+  const input = document.getElementById('pw-input');
+  const eye   = document.getElementById('pw-eye');
+  if (input.type === 'password') {
+    input.type = 'text';
+    eye.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    eye.textContent = '👁';
+  }
 }
 
 /* ─── INIT ─── */
